@@ -10,5 +10,8 @@ import java.util.List;
  * Time: 17:40
  */
 public interface IBookDao {
-    public List<BookBean>findAll();
+    List<BookBean>findAll();
+    boolean findItem(String bookName,String bookPublisher);
+    void update(String bookName,String bookPublisher,int number);
+    void delete(String bookName,String bookPublisher);
 }

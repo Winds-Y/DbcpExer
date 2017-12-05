@@ -4,9 +4,7 @@
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.Random" %>
-<%@ page import="henu.util.DbcpPool" %>
-<%@ page import="henu.Test.TestDBCP" %>
-<%@ page import="java.sql.SQLException" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: Yangtse
   Date: 2017/11/20
@@ -49,82 +47,30 @@
             <tbody>
             <%
                 for(BookBean bookBean:bookList){
+                    session.setAttribute(BookBean.BOOKNAME,bookBean.getBookName());
+                    session.setAttribute(BookBean.BOOKPRICE,bookBean.getBookPrice());
+                    session.setAttribute(BookBean.BOOKAUTHOR,bookBean.getBookAuthor());
+                    session.setAttribute(BookBean.BOOKPUBLISHER,bookBean.getBookPublisher());
             %>
-                    <tr class="<%=map.get(random.nextInt(7))%>">
-                        <td><%=bookBean.getBookName()%></td>
-                        <td><%=bookBean.getBookPrice()%></td>
-                        <td><%=bookBean.getBookAuthor()%></td>
-                        <td><%=bookBean.getBookPublisher()%></td>
-                        <td><%=bookBean.getBookNumber()%></td>
-                        <td><input class="myInputs" type="text" title="12"></td>
-                        <td><button >删除</button></td>
-                    </tr>
+                    <form action="BookServlet" method="post" target="_self">
+                        <tr class="<%=map.get(random.nextInt(7))%>">
+                            <td><%=bookBean.getBookName()%></td>
+                            <td><%=bookBean.getBookPrice()%></td>
+                            <td><%=bookBean.getBookAuthor()%></td>
+                            <td><%=bookBean.getBookPublisher()%></td>
+                            <td><%=bookBean.getBookNumber()%></td>
+                            <td>
+                                <input name="modifyNumber" class="myInputs" type="number" title="please input number of book">
+                                <input name="operation" type="submit" value="修改" class="btn-success addSubmit"/>
+                            </td>
+                            <td>
+                                <input name="operation" type="submit" value="删除" class="btn-info addSubmit"/>
+                            </td>
+                        </tr>
+                    </form>
             <%
                 }
             %>
-                <tr class="trs">
-                    <td><input class="myInputs" type="text" title="12"></td>
-                    <td></td>
-                    <td>Yangtse Yeager</td>
-                    <td>USER NAME</td>
-                    <td></td>
-                    <td>Yangtse Yeager</td>
-                    <td>Yangtse Yeager</td>
-                </tr>
-                <tr class="trs" id="trheader">
-                    <td>USER NAME</td>
-                    <td></td>
-                    <td>Yangtse Yeager</td>
-                    <td>USER NAME</td>
-                    <td></td>
-                    <td>Yangtse Yeager</td>
-                    <td>Yangtse Yeager</td>
-                </tr>
-                <tr class="table-info trs">
-                    <td>USER NAME</td>
-                    <td></td>
-                    <td>Yangtse Yeager</td>
-                    <td>USER NAME</td>
-                    <td></td>
-                    <td>Yangtse Yeager</td>
-                    <td>Yangtse Yeager</td>
-                </tr>
-                <tr class="table-success trs">
-                    <td>USER NAME</td>
-                    <td></td>
-                    <td>Yangtse Yeager</td>
-                    <td>USER NAME</td>
-                    <td></td>
-                    <td>Yangtse Yeager</td>
-                    <td>Yangtse Yeager</td>
-                </tr>
-                <tr class="table-danger trs">
-                    <td>USER NAME</td>
-                    <td></td>
-                    <td>Yangtse Yeager</td>
-                    <td>USER NAME</td>
-                    <td></td>
-                    <td>Yangtse Yeager</td>
-                    <td>Yangtse Yeager</td>
-                </tr>
-                <tr class="table-warning trs">
-                    <td>USER NAME</td>
-                    <td></td>
-                    <td>Yangtse Yeager</td>
-                    <td>USER NAME</td>
-                    <td></td>
-                    <td>Yangtse Yeager</td>
-                    <td>Yangtse Yeager</td>
-                </tr>
-                <tr class="table-active trs">
-                    <td>USER NAME</td>
-                    <td></td>
-                    <td>Yangtse Yeager</td>
-                    <td>USER NAME</td>
-                    <td></td>
-                    <td>Yangtse Yeager</td>
-                    <td>Yangtse Yeager</td>
-                </tr>
             </tbody>
         </table>
     </form>

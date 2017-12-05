@@ -40,4 +40,53 @@ public class BookDaoImp implements IBookDao {
         DbcpPool.close();
         return list;
     }
+
+    @Override
+    public boolean findItem(String bookName, String bookPublisher) {
+        boolean isExist=false;
+        DbcpPool.initDBconn();
+        sql="select * from bookinfo where "+BookBean.BOOKNAME+" =? and "+BookBean.BOOKPUBLISHER+"=?";
+        try {
+            DbcpPool.setSql(sql);
+            DbcpPool.cbsetString(1,bookName);
+            DbcpPool.cbsetString(2,bookPublisher);
+            isExist=DbcpPool.executeQuery().next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        DbcpPool.close();
+        return isExist;
+    }
+
+    @Override
+    public void update(String bookName, String bookPublisher, int number) {
+        DbcpPool.initDBconn();
+        sql="update bookinfo set "+BookBean.BOOKNUMBER+"=? where "+BookBean.BOOKNAME+"=? and "+BookBean.BOOKPUBLISHER+"=?";
+        try {
+            DbcpPool.setSql(sql);
+            DbcpPool.cbsetInt(1,number);
+            DbcpPool.cbsetString(2,bookName);
+            DbcpPool.cbsetString(3,bookPublisher);
+            DbcpPool.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        DbcpPool.close();
+    }
+
+    @Override
+    public void delete(String bookName, String bookPublisher) {
+        DbcpPool.initDBconn();
+        sql="delete from bookinfo where "+BookBean.BOOKNAME+"=? and "+BookBean.BOOKPUBLISHER+"=?";
+        try {
+            DbcpPool.setSql(sql);
+            DbcpPool.cbsetString(1,bookName);
+            DbcpPool.cbsetString(2,bookPublisher);
+            DbcpPool.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        DbcpPool.close();
+    }
+
 }
