@@ -1,0 +1,20 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="IdeaExer5:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/IdeaExer5_war_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="IdeaExer5/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="IdeaExer5" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="commons-collections3-3.2.1" />
+          <element id="library" level="project" name="commons-logging-4.0.6" />
+          <element id="library" level="project" name="mysql-connector-java-5.1.40-bin" />
+          <element id="library" level="project" name="commons-pool2-2.4.3" />
+          <element id="library" level="project" name="commons-dbcp2-2.1.1" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
