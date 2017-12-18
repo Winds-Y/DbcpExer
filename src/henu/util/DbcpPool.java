@@ -21,7 +21,7 @@ public class DbcpPool {
     private static ResultSet rs=null;
     private static BasicDataSource dataSource=null;
     private static String sql;
-    public static void initDBconn () {
+    public static void initDBConn() {
         if(dataSource!=null){
             try {
                 dataSource.close();
@@ -60,7 +60,6 @@ public class DbcpPool {
 
             con= dataSource.getConnection();
         } catch (Exception e) {
-            // TODO: handle exception
             e.printStackTrace();
         }
     }
@@ -68,24 +67,23 @@ public class DbcpPool {
         DbcpPool.sql=sql;
         stmt=con.prepareStatement(sql);
     }
-    public static void cbsetString(int index,String value) throws SQLException {
+    public static void setString(int index, String value) throws SQLException {
        stmt.setString(index,value);
     }
-    public static void cbsetInt(int index,int value) throws SQLException {
+    public static void setInt(int index, int value) throws SQLException {
        stmt.setInt(index,value);
     }
     /*public static void cbsetBinaryStream(int index, FileInputStream in) throws IOException, SQLException {
        //stmt.setBinaryStream(index,in,in.available());
        stmt.setBlob(index,in,in.available());
     }*/
-    public static void cbsetDouble(int index,double value) throws SQLException {
+    public static void setDouble(int index, double value) throws SQLException {
         stmt.setDouble(index,value);
     }
     public static ResultSet executeQuery() {
         try {
             rs=stmt.executeQuery();
         }catch (SQLException e) {
-            // TODO: handle exception
             System.out.println("DBConnFactory.executeQuery()");
             System.err.println("executeQuery发生异常："+e.getMessage());
             System.err.println("异常SQL语句："+sql);
@@ -98,7 +96,6 @@ public class DbcpPool {
             rowCount=stmt.executeUpdate();
             System.out.println(TAG+"->executeUpdate->rowCount="+rowCount);
         }catch (SQLException e) {
-            // TODO: handle exception
             System.out.println("DBConnFactory.executeUpdate()");
             System.err.println("executeUpdate发生异常："+e.getMessage());
             System.err.println("异常SQL语句："+sql);
@@ -110,7 +107,6 @@ public class DbcpPool {
             stmt.close();
             con.close();
         } catch (SQLException e) {
-            // TODO: handle exception
             e.printStackTrace();
         }
     }

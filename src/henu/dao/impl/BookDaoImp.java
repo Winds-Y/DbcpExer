@@ -21,12 +21,12 @@ public class BookDaoImp implements IBookDao {
     public List<BookBean> findAll() {
         List<BookBean>list=new ArrayList<>();
         sql="select * from bookinfo";
-        BookBean bookBean=new BookBean();
-        DbcpPool.initDBconn();
+        DbcpPool.initDBConn();
         try {
             DbcpPool.setSql(sql);
             resultSet=DbcpPool.executeQuery();
             while (resultSet.next()){
+                BookBean bookBean=new BookBean();
                 bookBean.setBookName(resultSet.getString(BookBean.BOOKNAME));
                 bookBean.setBookPrice(resultSet.getDouble(BookBean.BOOKPRICE));
                 bookBean.setBookAuthor(resultSet.getString(BookBean.BOOKAUTHOR));
@@ -44,12 +44,12 @@ public class BookDaoImp implements IBookDao {
     @Override
     public boolean findItem(String bookName, String bookPublisher) {
         boolean isExist=false;
-        DbcpPool.initDBconn();
+        DbcpPool.initDBConn();
         sql="select * from bookinfo where "+BookBean.BOOKNAME+" =? and "+BookBean.BOOKPUBLISHER+"=?";
         try {
             DbcpPool.setSql(sql);
-            DbcpPool.cbsetString(1,bookName);
-            DbcpPool.cbsetString(2,bookPublisher);
+            DbcpPool.setString(1,bookName);
+            DbcpPool.setString(2,bookPublisher);
             isExist=DbcpPool.executeQuery().next();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -60,13 +60,13 @@ public class BookDaoImp implements IBookDao {
 
     @Override
     public void update(String bookName, String bookPublisher, int number) {
-        DbcpPool.initDBconn();
+        DbcpPool.initDBConn();
         sql="update bookinfo set "+BookBean.BOOKNUMBER+"=? where "+BookBean.BOOKNAME+"=? and "+BookBean.BOOKPUBLISHER+"=?";
         try {
             DbcpPool.setSql(sql);
-            DbcpPool.cbsetInt(1,number);
-            DbcpPool.cbsetString(2,bookName);
-            DbcpPool.cbsetString(3,bookPublisher);
+            DbcpPool.setInt(1,number);
+            DbcpPool.setString(2,bookName);
+            DbcpPool.setString(3,bookPublisher);
             DbcpPool.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -76,12 +76,36 @@ public class BookDaoImp implements IBookDao {
 
     @Override
     public void delete(String bookName, String bookPublisher) {
-        DbcpPool.initDBconn();
+        DbcpPool.initDBConn();
         sql="delete from bookinfo where "+BookBean.BOOKNAME+"=? and "+BookBean.BOOKPUBLISHER+"=?";
         try {
             DbcpPool.setSql(sql);
-            DbcpPool.cbsetString(1,bookName);
-            DbcpPool.cbsetString(2,bookPublisher);
+            DbcpPool.setString(1,bookName);
+            DbcpPool.setString(2,bookPublisher);
+            DbcpPool.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        DbcpPool.close();
+    }
+
+    @Override
+    public void add(BookBean newBook) {
+        DbcpPool.initDBConn();
+        sql="insert into bookinfo (" +
+                BookBean.BOOKNAME+","+
+                BookBean.BOOKPRICE+","+
+                BookBean.BOOKAUTHOR+","+
+                BookBean.BOOKPUBLISHER+","+
+                BookBean.BOOKNUMBER+
+                ") values(?,?,?,?,?)";
+        try {
+            DbcpPool.setSql(sql);
+            DbcpPool.setString(1,newBook.getBookName());
+            DbcpPool.setDouble(2,newBook.getBookPrice());
+            DbcpPool.setString(3,newBook.getBookAuthor());
+            DbcpPool.setString(4,newBook.getBookPublisher());
+            DbcpPool.setInt(5,newBook.getBookNumber());
             DbcpPool.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

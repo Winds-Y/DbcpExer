@@ -23,7 +23,7 @@ public class TestDBCP {
         }
     }
     public static void add(){
-        DbcpPool.initDBconn();
+        DbcpPool.initDBConn();
         String sql="insert into bookinfo ("+ BookBean.BOOKNAME+","+
                 BookBean.BOOKPRICE+","+
                 BookBean.BOOKAUTHOR+","+
@@ -31,11 +31,11 @@ public class TestDBCP {
                 BookBean.BOOKNUMBER+")values (?,?,?,?,?)";
         try {
             DbcpPool.setSql(sql);
-            DbcpPool.cbsetString(1,"安徒生童话");
-            DbcpPool.cbsetDouble(2,20.9);
-            DbcpPool.cbsetString(3,"安徒生");
-            DbcpPool.cbsetString(4,"人民出版社");
-            DbcpPool.cbsetInt(5,1000);
+            DbcpPool.setString(1,"安徒生童话");
+            DbcpPool.setDouble(2,20.9);
+            DbcpPool.setString(3,"安徒生");
+            DbcpPool.setString(4,"人民出版社");
+            DbcpPool.setInt(5,1000);
             DbcpPool.executeUpdate();
             DbcpPool.close();
         } catch (SQLException e) {

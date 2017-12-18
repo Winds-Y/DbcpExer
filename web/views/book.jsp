@@ -18,8 +18,15 @@
 </head>
 <link rel="stylesheet" type="text/css" href="../static/css/yeti_bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="../static/css/book.css">
+
+<body>
 <%
+    String TAG="book.jsp：";
     List<BookBean>bookList= DaoFactory.getBookDaoInstance().findAll();
+    for(BookBean bookBean:bookList){
+        System.out.println(bookBean.getBookName());
+    }
+    System.out.println(TAG+bookList.size());
     Map<Integer,String>map=new HashMap<>();
     map.put(0,"table-info");
     map.put(1,"table-success");
@@ -30,8 +37,7 @@
     map.put(6,"trs");
     Random random=new Random();
 %>
-<body>
-    <form action="BookServlet" method="post" target="_self">
+    <form action="BookServlet" method="post" >
         <table id="bookTable" class="table table-striped table-hover table-bordered">
             <thead class="thead-dark">
                 <tr>
@@ -51,8 +57,9 @@
                     session.setAttribute(BookBean.BOOKPRICE,bookBean.getBookPrice());
                     session.setAttribute(BookBean.BOOKAUTHOR,bookBean.getBookAuthor());
                     session.setAttribute(BookBean.BOOKPUBLISHER,bookBean.getBookPublisher());
+                    System.out.println(TAG+bookBean.getBookName());
             %>
-                    <form action="BookServlet" method="post" target="_self">
+                    <form action="BookServlet" method="post" name="myForm">
                         <tr class="<%=map.get(random.nextInt(7))%>">
                             <td><%=bookBean.getBookName()%></td>
                             <td><%=bookBean.getBookPrice()%></td>
@@ -61,10 +68,11 @@
                             <td><%=bookBean.getBookNumber()%></td>
                             <td>
                                 <input name="modifyNumber" class="myInputs" type="number" title="please input number of book">
-                                <input name="operation" type="submit" value="修改" class="btn-success addSubmit"/>
+                                <input name="operationModify" type="submit" value="修改" class="btn-success addSubmit"/>
                             </td>
                             <td>
-                                <input name="operation" type="submit" value="删除" class="btn-info addSubmit"/>
+                                <input  name="operationDelete" style="display: none;" value="删除" title="delete"/>
+                                <input id="deleteInput" name="" type="button" value="删除" class="btn-info addSubmit" onclick="promptBeforeDelete()"/>
                             </td>
                         </tr>
                     </form>
@@ -74,7 +82,7 @@
             </tbody>
         </table>
     </form>
-    <button class="btn btn-primary" id="addBookInfo" onclick="addRow()">添加图书信息</button>
+    <button class="btn btn-primary" type="button" id="addBookInfo" onclick="addRow()">添加图书信息</button>
     <script src="../static/js/jquery-3.2.1.js"></script>
     <script src="../static/js/book.js"></script>
 </body>

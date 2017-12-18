@@ -14,4 +14,5 @@ public interface IBookDao {
     boolean findItem(String bookName,String bookPublisher);
     void update(String bookName,String bookPublisher,int number);
     void delete(String bookName,String bookPublisher);
+    void add(BookBean newBook);
 }
