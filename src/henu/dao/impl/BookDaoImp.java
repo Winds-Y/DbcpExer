@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class BookDaoImp implements IBookDao {
     private String sql;
-    private ResultSet resultSet;
+
     @Override
     public List<BookBean> findAll() {
         List<BookBean>list=new ArrayList<>();
@@ -24,7 +24,7 @@ public class BookDaoImp implements IBookDao {
         DbcpPool.initDBConn();
         try {
             DbcpPool.setSql(sql);
-            resultSet=DbcpPool.executeQuery();
+            ResultSet resultSet = DbcpPool.executeQuery();
             while (resultSet.next()){
                 BookBean bookBean=new BookBean();
                 bookBean.setBookName(resultSet.getString(BookBean.BOOKNAME));
@@ -77,6 +77,7 @@ public class BookDaoImp implements IBookDao {
     @Override
     public void delete(String bookName, String bookPublisher) {
         DbcpPool.initDBConn();
+        System.out.println(String.format("deleteBook：%s，%s",bookName,bookPublisher));
         sql="delete from bookinfo where "+BookBean.BOOKNAME+"=? and "+BookBean.BOOKPUBLISHER+"=?";
         try {
             DbcpPool.setSql(sql);

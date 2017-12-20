@@ -24,6 +24,7 @@ public class BookServlet extends HttpServlet {
         IBookDao iBookDao=DaoFactory.getBookDaoInstance();
         String operationModify=request.getParameter("operationModify");
         String operationDelete=request.getParameter("operationDelete");
+//        String operationDelete=(String) request.getAttribute("operationDelete");
         String operationAdd=request.getParameter("operationAdd");
         System.out.println("operationModify is :"+operationModify);
         System.out.println("operationDelete is :"+operationDelete);
@@ -41,11 +42,6 @@ public class BookServlet extends HttpServlet {
             }
             if(iBookDao.findItem(bookName,bookPublisher))
                 iBookDao.update(bookName,bookPublisher,number);
-        }else if("删除".equals(operationDelete)){
-            String bookName= (String) session.getAttribute(BookBean.BOOKNAME);
-            String bookPublisher=(String)session.getAttribute(BookBean.BOOKPUBLISHER);
-            if(iBookDao.findItem(bookName,bookPublisher))
-                iBookDao.delete(bookName,bookPublisher);
         }else if("添加".equals(operationAdd)){
             String addBookName=request.getParameter("addBookName");
             String addBookPrice=request.getParameter("addBookPrice");
@@ -65,6 +61,11 @@ public class BookServlet extends HttpServlet {
             newBook.setBookPublisher(addBookPublisher);
             newBook.setBookNumber(C_addBookNumber);
             iBookDao.add(newBook);
+        }else if("删除".equals(operationDelete)){
+            String bookName= (String) session.getAttribute(BookBean.BOOKNAME);
+            String bookPublisher=(String)session.getAttribute(BookBean.BOOKPUBLISHER);
+            if(iBookDao.findItem(bookName,bookPublisher))
+                iBookDao.delete(bookName,bookPublisher);
         }
         try {
             request.getRequestDispatcher("/views/book.jsp").forward(request,response);

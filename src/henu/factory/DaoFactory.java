@@ -1,7 +1,9 @@
 package henu.factory;
 
 import henu.dao.IBookDao;
+import henu.dao.IUser;
 import henu.dao.impl.BookDaoImp;
+import henu.dao.impl.UserDaoImp;
 
 /**
  * User: Yangtse
@@ -11,5 +13,8 @@ import henu.dao.impl.BookDaoImp;
 public class DaoFactory {
     public static IBookDao getBookDaoInstance(){
         return new BookDaoImp();
+    }
+    public static IUser getUserDaoInstance(){
+        return new UserDaoImp();
     }
 }

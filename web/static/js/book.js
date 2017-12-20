@@ -1,6 +1,4 @@
-$(Document).ready(function () {
-   // alert('hello');
-});
+
 function addRow() {
     var class_dict={0:"table-info",1:"table-success",2:"table-danger",3:"table-warning",4:"table-active",5:""};
     var bookTable=document.getElementById('bookTable');
@@ -21,15 +19,23 @@ function addRow() {
     cell3.innerHTML="<input class='myInputs' name='addBookPublisher' type='text' />";
     cell4.innerHTML="<input class='myInputs' name='addBookNumber' type='number' />";
     cell5.innerHTML="<input name=\"operationAdd\" type=\"submit\" value=\"添加\" class=\"btn-success addSubmit\"/>";
-    cell6.innerHTML="<input name=\"operationDelete\" type=\"submit\" value=\"删除\" class=\"btn-info addSubmit\"/>";
+    cell6.innerHTML="<input name=\"operationDelete\" type=\"button\" value=\"删除\" onclick='promptBeforeDelete()' class=\"btn-info addSubmit\"/>";
 }
 function getRandom() {
     return Math.floor(Math.random()*10);
 }
 function promptBeforeDelete() {
+    document.getElementById('operationDelete').value="删除";
+    var flag=document.getElementsByName('addBookName').innerText==null ||
+        document.getElementsByName('addBookPublisher').innerText==null;
     if(confirm("您确定要删除该项吗？")){
-        document.getElementById('deleteInput').value="删除";
-        document.getElementById('deleteInput').style.display='none';
-        document.myForm.submit();
+        var myForm=document.getElementById('myForm');
+        if(!flag)
+            myForm.submit();
+        else{
+            var bookTable=document.getElementById('bookTable');
+            trs=bookTable.getElementsByTagName('tr');
+            bookTable.deleteRow(trs.length-1);
+        }
     }
 }
