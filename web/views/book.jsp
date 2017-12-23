@@ -33,6 +33,7 @@
     for(BookBean bookBean:bookList){
         System.out.println(bookBean.getBookName());
     }
+    session.setAttribute("bookList",bookList);
     System.out.println(TAG+bookList.size());
     Map<Integer,String>map=new HashMap<>();
     map.put(0,"table-info");
@@ -44,7 +45,11 @@
     map.put(6,"trs");
     Random random=new Random();
 %>
-    <form action="BookServlet" id="myForm" method="post" >
+    <form action="BookServlet" id="myForm"  method="post" >
+        <input style="display: none;" title="index" name="rowIndex" id="rowIndex">
+        <input id="operationDelete" type="text" name="operationDelete" style="display: none;" value="" title="delete"/>
+        <input name="operationModify" style="display: none;" id="operationModify"  title="modify"/>
+        <input name="modifyTrueNum" style="display: none;" id="modifyTrueNum"  title="modify"/>
         <table id="bookTable" class="table table-striped table-hover table-bordered">
             <thead class="thead-dark">
                 <tr>
@@ -60,29 +65,21 @@
             <tbody>
             <%
                 for(BookBean bookBean:bookList){
-                    session.setAttribute(BookBean.BOOKNAME,bookBean.getBookName());
-                    session.setAttribute(BookBean.BOOKPRICE,bookBean.getBookPrice());
-                    session.setAttribute(BookBean.BOOKAUTHOR,bookBean.getBookAuthor());
-                    session.setAttribute(BookBean.BOOKPUBLISHER,bookBean.getBookPublisher());
-                    System.out.println(TAG+bookBean.getBookName());
             %>
-                    <form action="BookServlet" id="myForm" method="post" >
-                        <tr class="<%=map.get(random.nextInt(7))%>">
-                            <td><%=bookBean.getBookName()%></td>
-                            <td><%=bookBean.getBookPrice()%></td>
-                            <td><%=bookBean.getBookAuthor()%></td>
-                            <td><%=bookBean.getBookPublisher()%></td>
-                            <td><%=bookBean.getBookNumber()%></td>
-                            <td>
-                                <input name="modifyNumber" class="myInputs" type="number" title="please input number of book">
-                                <input name="operationModify" type="submit" value="修改" class="btn-success addSubmit"/>
-                            </td>
-                            <td>
-                                <input id="operationDelete" type="text" name="operationDelete" style="display: none;" value="删除" title="delete"/>
-                                <input id="deleteInput" name="" type="button" value="删除" class="btn-info addSubmit" onclick="promptBeforeDelete()"/>
-                            </td>
-                        </tr>
-                    </form>
+                    <tr class="<%=map.get(random.nextInt(7))%>">
+                        <td><%=bookBean.getBookName()%></td>
+                        <td><%=bookBean.getBookPrice()%></td>
+                        <td><%=bookBean.getBookAuthor()%></td>
+                        <td><%=bookBean.getBookPublisher()%></td>
+                        <td><%=bookBean.getBookNumber()%></td>
+                        <td>
+                            <input name="modifyNumber" id="modifyNumber" class="myInputs" type="number" title="please input number of book">
+                            <input name="" type="button" value="修改" class="btn-success addSubmit" onclick="myModify(this)"/>
+                        </td>
+                        <td>
+                            <input id="deleteInput" name="" type="button" value="删除" class="btn-info addSubmit" onclick="promptBeforeDelete(this)"/>
+                        </td>
+                    </tr>
             <%
                 }
             %>

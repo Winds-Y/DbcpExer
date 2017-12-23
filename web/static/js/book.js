@@ -13,29 +13,60 @@ function addRow() {
     var cell4=new_Tr.insertCell(4);
     var cell5=new_Tr.insertCell(5);
     var cell6=new_Tr.insertCell(6);
-    cell0.innerHTML="<input class='myInputs' name='addBookName' type='text' />";
+    cell0.innerHTML="<input class='myInputs' id='markName' name='addBookName' type='text' />";
     cell1.innerHTML="<input class='myInputs' name='addBookPrice' type='text' />";
     cell2.innerHTML="<input class='myInputs' name='addBookAuthor' type='text' />";
-    cell3.innerHTML="<input class='myInputs' name='addBookPublisher' type='text' />";
+    cell3.innerHTML="<input class='myInputs' id='markPublisher' name='addBookPublisher' type='text' />";
     cell4.innerHTML="<input class='myInputs' name='addBookNumber' type='number' />";
     cell5.innerHTML="<input name=\"operationAdd\" type=\"submit\" value=\"添加\" class=\"btn-success addSubmit\"/>";
-    cell6.innerHTML="<input name=\"operationDelete\" type=\"button\" value=\"删除\" onclick='promptBeforeDelete()' class=\"btn-info addSubmit\"/>";
+    cell6.innerHTML="<input name=\"operationDelete\" type=\"button\" value=\"删除\" onclick='addRowPromptDelete(this)' class=\"btn-info addSubmit\"/>";
 }
 function getRandom() {
     return Math.floor(Math.random()*10);
 }
-function promptBeforeDelete() {
+function getRowObj(obj) {
+    var i=0;
+    while(obj.tagName.toLowerCase()!=="tr"){
+        obj=obj.parentNode;
+        if(obj.tagName.toLowerCase()==="table")
+            return null;
+    }
+    return obj;
+}
+function getRowIndex(obj) {
+    var trObj=getRowObj(obj);
+    var trArr;
+    if(trObj!=null)trArr=trObj.parentNode.children;
+    var trIndex;
+    for(trIndex=0;trIndex<trArr.length;trIndex++){
+        if(trObj===trObj.parentNode.children[trIndex])
+            return trIndex+1;
+    }
+    return -1;
+}
+function myModify(obj) {
+    var clickIndex=getRowIndex(obj);
+    document.getElementById('rowIndex').value=clickIndex;
+    //alert(clickIndex);
+    document.getElementById('operationModify').value="修改";
+    var strModifyNum=document.getElementsByName('modifyNumber');
+    //alert(strModifyNum[clickIndex-1].value);
+    document.getElementById('modifyTrueNum').value=strModifyNum[clickIndex-1].value;
+    document.getElementById('myForm').submit();
+}
+function promptBeforeDelete(obj) {
+    var clickIndex=getRowIndex(obj);
+    // alert(clickIndex);
+    document.getElementById('rowIndex').value=clickIndex;
     document.getElementById('operationDelete').value="删除";
-    var flag=document.getElementsByName('addBookName').innerText==null ||
-        document.getElementsByName('addBookPublisher').innerText==null;
     if(confirm("您确定要删除该项吗？")){
         var myForm=document.getElementById('myForm');
-        if(!flag)
-            myForm.submit();
-        else{
-            var bookTable=document.getElementById('bookTable');
-            trs=bookTable.getElementsByTagName('tr');
-            bookTable.deleteRow(trs.length-1);
-        }
+        myForm.submit();
     }
+}
+function addRowPromptDelete(obj) {
+    var clickIndex=getRowIndex(obj);
+    // alert(clickIndex);
+    var bookTable=document.getElementById('bookTable');
+    bookTable.deleteRow(clickIndex);
 }

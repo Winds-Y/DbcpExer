@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="IdeaExer5:war">
+    <output-path>$PROJECT_DIR$/out/artifacts/IdeaExer5_war</output-path>
+    <root id="archive" name="IdeaExer5_war.war">
+      <element id="artifact" artifact-name="IdeaExer5:war exploded" />
+    </root>
+  </artifact>
+</component>
